@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yzh1024.dao.UserDao">
+
+    <resultMap id="UserMap" type="com.yzh1024.entity.User">
+        <id column="id" property="id"></id>
+        <result column="id" property="id"></result>
+        <result column="user_name" property="userName"></result>
+        <result column="user_pwd" property="userPwd"></result>
+        <result column="name" property="name"></result>
+        <result column="remark" property="remark"></result>
+    </resultMap>
+
+    <!--
+    useGeneratedKeys="true" keyProperty="id
+    生成对象之后直接返回主键
+    -->
+    <insert id="create" parameterType="com.yzh1024.entity.User" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_user(user_name,user_pwd,name,remark) values(#{userName},#{userPwd},#{name},#{remark})
+    </insert>
+
+    <delete id="delete">
+        delete from tb_user
+        <include refid="userFindCriteria"/>
+    </delete>
+
+    <update id="update">
+        update tb_user
+        <include refid="userUpdateCriteria"/>
+        <include refid="userFindCriteria"/>
+    </update>
+
+    <select id="count" resultType="int">
+        select count(*) from tb_user
+        <include refid="userFindCriteria"/>
+    </select>
+
+    <select id="query" resultMap="UserMap">
+        select * from tb_user
+        <include refid="userFindCriteria"/>
+    </select>
+
+    <select id="detail" resultMap="UserMap">
+        select * from tb_user
+        <include refid="userFindCriteria"/>
+        limit 1
+    </select>
+
+    <!--用户查询标准-->
+    <sql id="userFindCriteria">
+        <where>
+            <if test="id !=null">and id = #{id}</if>
+            <if test="userName != null and userName != ''">and user_name = #{userName}</if>
+            <if test="userPwd != null and userPwd != ''">and user_pwd = #{userPwd}</if>
+            <if test="name != null and name != ''">and name like concat('%',#{name},'%')</if>
+            <if test="remark != null and remark != ''">and remark like concat('%',#{remark},'%')</if>
+        </where>
+    </sql>
+
+    <!--用户更新标准-->
+    <sql id="userUpdateCriteria">
+        <set>
+            <if test="updateId != null">id = #{updateId},</if>
+            <if test="updateUserName != null and updateUserName != ''">user_name = #{updateUserName},</if>
+            <if test="updateUserPwd != null and updateUserPwd != ''">user_pwd = #{updateUserPwd},</if>
+            <if test="updateName != null and updateName != ''">name =#{updateName},</if>
+            <if test="updateRemark != null and updateRemark != ''">remark =#{updateRemark},</if>
+        </set>
+    </sql>
+
+
+</mapper>

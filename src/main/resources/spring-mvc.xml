@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+			    http://www.springframework.org/schema/beans/spring-beans.xsd
+			    http://www.springframework.org/schema/context
+			    http://www.springframework.org/schema/context/spring-context.xsd
+			    http://www.springframework.org/schema/aop
+			    http://www.springframework.org/schema/aop/spring-aop.xsd
+			    http://www.springframework.org/schema/mvc
+			    http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--包扫描-->
+    <context:component-scan base-package="com.yzh1024.controller,com.yzh1024.utils" />
+
+    <!--注解驱动-->
+    <mvc:annotation-driven>
+        <!--配置消息转换（Map转json）-->
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <!--配置日期-->
+                <property name="objectMapper">
+                    <bean class="com.fasterxml.jackson.databind.ObjectMapper">
+                        <property name="dateFormat">
+                            <bean class="java.text.SimpleDateFormat">
+                                <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss"/>
+                            </bean>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!--配置静态资源不做处理-->
+    <mvc:default-servlet-handler />
+
+    <!--配置视图解析器,解析WEB-INF下的文件-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/page/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+
+   <!--配置拦截器-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!--  /**/*拦截所有请求-->
+            <mvc:mapping path="/**/*"/>
+            <bean class="com.yzh1024.utils.PathInterceptor" />
+        </mvc:interceptor>
+
+        <mvc:interceptor>
+            <!--  /**/*拦截所有请求-->
+            <mvc:mapping path="/**/*"/>
+            <!--排出不需要拦截的-->
+            <mvc:exclude-mapping path="/login"/>
+            <mvc:exclude-mapping path="/logout"/>
+            <mvc:exclude-mapping path="/captcha/*"/>
+            <mvc:exclude-mapping path="/static/**"/>
+            <bean class="com.yzh1024.utils.PermissionInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+</beans>
