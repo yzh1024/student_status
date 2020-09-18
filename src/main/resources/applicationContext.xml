@@ -15,7 +15,7 @@
 		http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
     <!--包扫描-->
-    <context:component-scan base-package="com.yzh1024.service" />
+    <context:component-scan base-package="com.yzh1024.service,com.yzh1024.utils" />
 
     <!--加载db.properties文件-->
     <context:property-placeholder location="classpath:db.properties" />
