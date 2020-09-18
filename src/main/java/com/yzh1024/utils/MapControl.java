@@ -12,7 +12,7 @@ public class MapControl {
     /**
      * 自定义状态码
      */
-    private static final String SUCCESS = "1000";
+    private static final String SUCCESS = "0";
     private static final String ERROR = "1001";
     private static final String NODATA = "1002";
 

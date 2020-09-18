@@ -5,10 +5,7 @@ import com.yzh1024.service.SubjectService;
 import com.yzh1024.utils.MapControl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -22,6 +19,10 @@ import java.util.Map;
 @Controller
 @RequestMapping("/subject")
 public class SubjectController {
+
+    private String LIST = "subject/list";
+    private String ADD = "subject/add";
+    private String UPDATE = "subject/update";
 
     @Autowired
     private SubjectService subjectService;
@@ -72,6 +73,11 @@ public class SubjectController {
     private Map<String, Object> query(Subject subject) {
         List<Subject> list = subjectService.query(subject);
         return MapControl.getInstance().success().put("data",list).getMap();
+    }
+
+    @GetMapping("/list")
+    public String list(){
+        return LIST;
     }
 
 }

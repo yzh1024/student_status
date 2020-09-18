@@ -51,7 +51,6 @@
         <where>
             <if test="college != null and college != ''">and college like concat('%',#{college},'%')</if>
             <if test="id != null">and id = #{id}</if>
-            <if test="remark != null and remark != ''">and remark = #{remark}</if>
             <if test="subjectName != null and subjectName != ''">and subject_name like concat('%',#{subjectName},'%')</if>
         </where>
     </sql>

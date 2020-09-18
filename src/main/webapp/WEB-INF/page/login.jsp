@@ -105,7 +105,7 @@
                 dataType:'json',
                 data:data.field,
                 success:function(data){
-                    if(data.code == "1000"){//1000代表成功，layui默认0代表成功
+                    if(data.code == "0"){//1000代表成功，layui默认0代表成功
                         location.href = "index";
                     }else{
                         layer.msg(data.msg,{time:2000});
