@@ -1,6 +1,7 @@
 package com.yzh1024.service;
 
 
+import com.github.pagehelper.PageHelper;
 import com.yzh1024.dao.CourseDao;
 import com.yzh1024.entity.Course;
 import com.yzh1024.utils.BeanMapUtils;
@@ -32,6 +33,9 @@ public class CourseService {
     }
 
     public List<Course> query(Course course){
+        if (course != null && course.getPage() != null){
+            PageHelper.startPage(course.getPage(), course.getLimit());
+        }
         return courseDao.query(BeanMapUtils.beanToMap(course));
     }
 

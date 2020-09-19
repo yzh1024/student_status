@@ -1,5 +1,6 @@
 package com.yzh1024.service;
 
+import com.github.pagehelper.PageHelper;
 import com.yzh1024.dao.RequestDao;
 import com.yzh1024.entity.Request;
 import com.yzh1024.utils.BeanMapUtils;
@@ -30,6 +31,9 @@ public class RequestService {
     }
 
     public List<Request> query(Request request){
+        if (request != null && request.getPage() != null){
+            PageHelper.startPage(request.getPage(), request.getLimit());
+        }
         return requestDao.query(BeanMapUtils.beanToMap(request));
     }
 

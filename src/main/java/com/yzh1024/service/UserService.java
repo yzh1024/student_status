@@ -1,5 +1,6 @@
 package com.yzh1024.service;
 
+import com.github.pagehelper.PageHelper;
 import com.yzh1024.dao.UserDao;
 import com.yzh1024.entity.User;
 import com.yzh1024.utils.BeanMapUtils;
@@ -32,6 +33,9 @@ public class UserService {
     }
 
     public List<User> query(User user) {
+        if (user != null && user.getPage() != null){
+            PageHelper.startPage(user.getPage(), user.getLimit());
+        }
         return userDao.query(BeanMapUtils.beanToMap(user));
     }
 

@@ -1,5 +1,6 @@
 package com.yzh1024.service;
 
+import com.github.pagehelper.PageHelper;
 import com.yzh1024.dao.ScoreDao;
 import com.yzh1024.entity.Score;
 import com.yzh1024.utils.BeanMapUtils;
@@ -30,6 +31,9 @@ public class ScoreService {
     }
 
     public List<Score> query(Score score){
+        if (score != null && score.getPage() != null){
+            PageHelper.startPage(score.getPage(), score.getLimit());
+        }
         return scoreDao.query(BeanMapUtils.beanToMap(score));
     }
 

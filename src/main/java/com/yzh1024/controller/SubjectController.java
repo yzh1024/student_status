@@ -5,6 +5,7 @@ import com.yzh1024.service.SubjectService;
 import com.yzh1024.utils.MapControl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -27,6 +28,16 @@ public class SubjectController {
     @Autowired
     private SubjectService subjectService;
 
+
+    /**
+     * 新增，跳到add.jsp页面
+     * @return
+     */
+    @GetMapping("/add")
+    private String add(){
+        return ADD;
+    }
+
     @PostMapping("/create")
     @ResponseBody
     private Map<String, Object> create(Subject subject) {
@@ -48,6 +59,21 @@ public class SubjectController {
         return MapControl.getInstance().success().getMap();
     }
 
+    /**
+     * 批量删除
+     * @param ids
+     * @return
+     */
+    @PostMapping("/delete")
+    @ResponseBody
+    private Map<String, Object> delete(String ids) {
+        int result = subjectService.delete(ids);
+        if(result<=0){
+            return MapControl.getInstance().error().getMap();
+        }
+        return MapControl.getInstance().success().getMap();
+    }
+
     @PostMapping("/update")
     @ResponseBody
     private Map<String, Object> update(Subject subject) {
@@ -58,21 +84,28 @@ public class SubjectController {
         return MapControl.getInstance().success().getMap();
     }
 
-    @PostMapping("/detail/{id}")
-    @ResponseBody
-    private Map<String, Object> detail(@PathVariable("id") Integer id) {
+
+    /**
+     * 根据id查询信息，然后跳转到update.jsp页面
+     * @param id
+     * @param modelMap
+     * @return
+     */
+    @GetMapping("/detail/{id}")
+    private String detail(@PathVariable("id") Integer id, ModelMap modelMap) {
         Subject subject = subjectService.detail(id);
-        if(subject ==null){
-            return MapControl.getInstance().nodata().getMap();
-        }
-        return MapControl.getInstance().success().put("data",subject).getMap();
+        modelMap.addAttribute("subject",subject);
+       return UPDATE;
     }
+
+
 
     @PostMapping("/query")
     @ResponseBody
     private Map<String, Object> query(Subject subject) {
         List<Subject> list = subjectService.query(subject);
-        return MapControl.getInstance().success().put("data",list).getMap();
+        Integer count = subjectService.count(subject);
+        return MapControl.getInstance().success().put("data",list).put("count",count).getMap();
     }
 
     @GetMapping("/list")

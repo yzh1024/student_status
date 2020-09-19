@@ -1,5 +1,6 @@
 package com.yzh1024.service;
 
+import com.github.pagehelper.PageHelper;
 import com.yzh1024.dao.StudentDao;
 import com.yzh1024.entity.Student;
 import com.yzh1024.utils.BeanMapUtils;
@@ -31,6 +32,9 @@ public class StudentService {
     }
 
     public List<Student> query(Student student){
+        if (student != null && student.getPage() != null){
+            PageHelper.startPage(student.getPage(), student.getLimit());
+        }
         return studentDao.query(BeanMapUtils.beanToMap(student));
     }
 

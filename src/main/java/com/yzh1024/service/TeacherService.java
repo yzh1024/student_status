@@ -1,5 +1,6 @@
 package com.yzh1024.service;
 
+import com.github.pagehelper.PageHelper;
 import com.yzh1024.dao.TeacherDao;
 import com.yzh1024.entity.Teacher;
 import com.yzh1024.utils.BeanMapUtils;
@@ -31,6 +32,9 @@ public class TeacherService {
     }
 
     public List<Teacher> query(Teacher teacher){
+        if (teacher != null && teacher.getPage() != null){
+            PageHelper.startPage(teacher.getPage(), teacher.getLimit());
+        }
         return teacherDao.query(BeanMapUtils.beanToMap(teacher));
     }
 

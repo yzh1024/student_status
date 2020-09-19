@@ -1,5 +1,6 @@
 package com.yzh1024.service;
 
+import com.github.pagehelper.PageHelper;
 import com.yzh1024.dao.ClazzDao;
 import com.yzh1024.entity.Clazz;
 import com.yzh1024.utils.BeanMapUtils;
@@ -30,6 +31,9 @@ public class ClazzService {
     }
 
     public List<Clazz> query(Clazz clazz){
+        if (clazz != null && clazz.getPage() != null){
+            PageHelper.startPage(clazz.getPage(), clazz.getLimit());
+        }
         return clazzDao.query(BeanMapUtils.beanToMap(clazz));
     }
 

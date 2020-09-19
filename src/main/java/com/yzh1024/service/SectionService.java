@@ -1,5 +1,6 @@
 package com.yzh1024.service;
 
+import com.github.pagehelper.PageHelper;
 import com.yzh1024.dao.SectionDao;
 import com.yzh1024.entity.Section;
 import com.yzh1024.utils.BeanMapUtils;
@@ -30,6 +31,9 @@ public class SectionService {
     }
 
     public List<Section> query(Section section){
+        if (section != null && section.getPage() != null){
+            PageHelper.startPage(section.getPage(), section.getLimit());
+        }
         return sectionDao.query(BeanMapUtils.beanToMap(section));
     }
 
