@@ -42,6 +42,9 @@ public class StudentService {
         return studentDao.detail(MapParameter.getInstance().addId(id).getMap());
     }
 
+    public int count(Student student){
+        return studentDao.count(BeanMapUtils.beanToMap(student));
+    }
     /**
      * 登录
      * @param userName
@@ -56,8 +59,20 @@ public class StudentService {
         return studentDao.detail(map);
     }
 
-    public int count(Student student){
-        return studentDao.count(BeanMapUtils.beanToMap(student));
+    /**
+     * 批量删除
+     *
+     * @param ids
+     * @return
+     */
+    public int delete(String ids) {
+        //按照“,”将传过来的字符串分割
+        String[] arr = ids.split(",");
+        int flag = 0;
+        for (String s : arr) {
+            flag = studentDao.delete(MapParameter.getInstance().addId(Integer.parseInt(s)).getMap());
+        }
+        return flag;
     }
     
 }

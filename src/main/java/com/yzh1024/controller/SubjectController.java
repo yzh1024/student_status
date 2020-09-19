@@ -21,22 +21,60 @@ import java.util.Map;
 @RequestMapping("/subject")
 public class SubjectController {
 
-    private String LIST = "subject/list";
-    private String ADD = "subject/add";
-    private String UPDATE = "subject/update";
+    private final String LIST = "subject/list";
+    private final String ADD = "subject/add";
+    private final String UPDATE = "subject/update";
 
     @Autowired
     private SubjectService subjectService;
 
 
     /**
-     * 新增，跳到add.jsp页面
+     * 跳转到subject/list.jsp
+      * @return
+     */
+    @GetMapping("/list")
+    public String list(){
+        return LIST;
+    }
+    /**
+     * 新增，跳到subject/add.jsp页面
      * @return
      */
     @GetMapping("/add")
     private String add(){
         return ADD;
     }
+
+    /**
+     * 批量删除
+     * @param ids
+     * @return
+     */
+    @PostMapping("/delete")
+    @ResponseBody
+    private Map<String, Object> delete(String ids) {
+        int result = subjectService.delete(ids);
+        if(result<=0){
+            return MapControl.getInstance().error().getMap();
+        }
+        return MapControl.getInstance().success().getMap();
+    }
+
+    /**
+     * 修改信息
+     * 先根据id查询信息，然后跳转到subject/update.jsp页面
+     * @param id
+     * @param modelMap
+     * @return
+     */
+    @GetMapping("/detail/{id}")
+    private String detail(@PathVariable("id") Integer id, ModelMap modelMap) {
+        Subject subject = subjectService.detail(id);
+        modelMap.addAttribute("subject",subject);
+        return UPDATE;
+    }
+
 
     @PostMapping("/create")
     @ResponseBody
@@ -59,20 +97,7 @@ public class SubjectController {
         return MapControl.getInstance().success().getMap();
     }
 
-    /**
-     * 批量删除
-     * @param ids
-     * @return
-     */
-    @PostMapping("/delete")
-    @ResponseBody
-    private Map<String, Object> delete(String ids) {
-        int result = subjectService.delete(ids);
-        if(result<=0){
-            return MapControl.getInstance().error().getMap();
-        }
-        return MapControl.getInstance().success().getMap();
-    }
+
 
     @PostMapping("/update")
     @ResponseBody
@@ -84,33 +109,12 @@ public class SubjectController {
         return MapControl.getInstance().success().getMap();
     }
 
-
-    /**
-     * 根据id查询信息，然后跳转到update.jsp页面
-     * @param id
-     * @param modelMap
-     * @return
-     */
-    @GetMapping("/detail/{id}")
-    private String detail(@PathVariable("id") Integer id, ModelMap modelMap) {
-        Subject subject = subjectService.detail(id);
-        modelMap.addAttribute("subject",subject);
-       return UPDATE;
-    }
-
-
-
     @PostMapping("/query")
     @ResponseBody
     private Map<String, Object> query(Subject subject) {
         List<Subject> list = subjectService.query(subject);
         Integer count = subjectService.count(subject);
         return MapControl.getInstance().success().put("data",list).put("count",count).getMap();
-    }
-
-    @GetMapping("/list")
-    public String list(){
-        return LIST;
     }
 
 }

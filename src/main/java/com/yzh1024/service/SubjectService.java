@@ -27,22 +27,6 @@ public class SubjectService {
         return subjectDao.delete(MapParameter.getInstance().addId(id).getMap());
     }
 
-    /**
-     * 批量删除
-     *
-     * @param ids
-     * @return
-     */
-    public int delete(String ids) {
-        //按照“,”将传过来的字符串分割
-        String[] arr = ids.split(",");
-        int flag = 0;
-        for (String s : arr) {
-            flag = subjectDao.delete(MapParameter.getInstance().addId(Integer.parseInt(s)).getMap());
-        }
-        return flag;
-    }
-
     public int update(Subject subject) {
         return subjectDao.update(MapParameter.getInstance().add(BeanMapUtils.beanToMapForUpdate(subject)).addId(subject.getId()).getMap());
     }
@@ -60,6 +44,21 @@ public class SubjectService {
 
     public int count(Subject subject) {
         return subjectDao.count(BeanMapUtils.beanToMap(subject));
+    }
+    /**
+     * 批量删除
+     *
+     * @param ids
+     * @return
+     */
+    public int delete(String ids) {
+        //按照“,”将传过来的字符串分割
+        String[] arr = ids.split(",");
+        int flag = 0;
+        for (String s : arr) {
+            flag = subjectDao.delete(MapParameter.getInstance().addId(Integer.parseInt(s)).getMap());
+        }
+        return flag;
     }
 
 }

@@ -43,5 +43,21 @@ public class ScoreService {
     public int count(Score score){
         return scoreDao.count(BeanMapUtils.beanToMap(score));
     }
+
+    /**
+     * 批量删除
+     *
+     * @param ids
+     * @return
+     */
+    public int delete(String ids) {
+        //按照“,”将传过来的字符串分割
+        String[] arr = ids.split(",");
+        int flag = 0;
+        for (String s : arr) {
+            flag = scoreDao.delete(MapParameter.getInstance().addId(Integer.parseInt(s)).getMap());
+        }
+        return flag;
+    }
     
 }

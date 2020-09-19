@@ -42,6 +42,9 @@ public class UserService {
     public User detail(Integer id) {
         return userDao.detail(MapParameter.getInstance().addId(id).getMap());
     }
+    public int count(User user) {
+        return userDao.count(BeanMapUtils.beanToMap(user));
+    }
 
     /**
      * 登录验证
@@ -57,8 +60,20 @@ public class UserService {
                 .getMap();
         return userDao.detail(map);
     }
-
-    public int count(User user) {
-        return userDao.count(BeanMapUtils.beanToMap(user));
+    /**
+     * 批量删除
+     *
+     * @param ids
+     * @return
+     */
+    public int delete(String ids) {
+        //按照“,”将传过来的字符串分割
+        String[] arr = ids.split(",");
+        int flag = 0;
+        for (String s : arr) {
+            flag = userDao.delete(MapParameter.getInstance().addId(Integer.parseInt(s)).getMap());
+        }
+        return flag;
     }
+
 }

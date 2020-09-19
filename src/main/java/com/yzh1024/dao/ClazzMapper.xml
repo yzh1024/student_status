@@ -51,7 +51,6 @@
         <where>
             <if test="clazzName != null and clazzName != ''">and clazz_name like concat('%',#{clazzName},'%')</if>
             <if test="id != null">and id = #{id}</if>
-            <if test="remark != null and remark != ''">and remark = #{remark}</if>
             <if test="subjectId != null">and subject_id = #{subjectId}</if>
         </where>
     </sql>

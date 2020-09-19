@@ -43,5 +43,21 @@ public class RequestService {
     public int count(Request request){
         return requestDao.count(BeanMapUtils.beanToMap(request));
     }
+
+    /**
+     * 批量删除
+     *
+     * @param ids
+     * @return
+     */
+    public int delete(String ids) {
+        //按照“,”将传过来的字符串分割
+        String[] arr = ids.split(",");
+        int flag = 0;
+        for (String s : arr) {
+            flag = requestDao.delete(MapParameter.getInstance().addId(Integer.parseInt(s)).getMap());
+        }
+        return flag;
+    }
     
 }
