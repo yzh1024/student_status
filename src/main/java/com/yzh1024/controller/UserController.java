@@ -1,10 +1,13 @@
 package com.yzh1024.controller;
 
 import com.yzh1024.entity.User;
+import com.yzh1024.entity.User;
+import com.yzh1024.service.UserService;
 import com.yzh1024.service.UserService;
 import com.yzh1024.utils.MapControl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -19,9 +22,60 @@ import java.util.Map;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+    private final String LIST = "user/list";
+    private final String ADD = "user/add";
+    private final String UPDATE = "user/update";
 
     @Autowired
     private UserService userService;
+
+
+    /**
+     * 跳转到user/list.jsp
+     * @return
+     */
+    @GetMapping("/list")
+    public String list(){
+        return LIST;
+    }
+    /**
+     * 新增，跳到user/add.jsp页面
+     * @return
+     */
+    @GetMapping("/add")
+    private String add(){
+        return ADD;
+    }
+
+    /**
+     * 批量删除
+     * @param ids
+     * @return
+     */
+    @PostMapping("/delete")
+    @ResponseBody
+    private Map<String, Object> delete(String ids) {
+        int result = userService.delete(ids);
+        if(result<=0){
+            return MapControl.getInstance().error().getMap();
+        }
+        return MapControl.getInstance().success().getMap();
+    }
+
+    /**
+     * 修改信息
+     * 先根据id查询信息，然后跳转到user/update.jsp页面
+     * @param id
+     * @param modelMap
+     * @return
+     */
+    @GetMapping("/detail/{id}")
+    private String detail(@PathVariable("id") Integer id, ModelMap modelMap) {
+        User user = userService.detail(id);
+        modelMap.addAttribute("user",user);
+        return UPDATE;
+    }
+
 
     @PostMapping("/create")
     @ResponseBody
@@ -44,6 +98,8 @@ public class UserController {
         return MapControl.getInstance().success().getMap();
     }
 
+
+
     @PostMapping("/update")
     @ResponseBody
     private Map<String, Object> update(User user) {
@@ -54,23 +110,13 @@ public class UserController {
         return MapControl.getInstance().success().getMap();
     }
 
-    @PostMapping("/detail/{id}")
-    @ResponseBody
-    private Map<String, Object> detail(@PathVariable("id") Integer id) {
-        User user = userService.detail(id);
-        if(user ==null){
-            return MapControl.getInstance().nodata().getMap();
-        }
-        return MapControl.getInstance().success().put("data",user).getMap();
-    }
-
     @PostMapping("/query")
     @ResponseBody
     private Map<String, Object> query(User user) {
         List<User> list = userService.query(user);
-        return MapControl.getInstance().success().put("data",list).getMap();
+        Integer count = userService.count(user);
+        return MapControl.getInstance().success().put("data",list).put("count",count).getMap();
     }
-
 }
 
 

@@ -17,7 +17,7 @@
     <div class="layuimini-main width_60">
         <form class="layui-form">
             <div class="layui-form-item">
-                <label class="layui-form-label">用户名</label>
+                <label class="layui-form-label">账号</label>
                 <div class="layui-input-block">
                     <input type="text" name="teacherName" lay-verify="required" class="layui-input">
                 </div>
@@ -25,13 +25,14 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">密码</label>
                 <div class="layui-input-block">
-                    <input type="text" name="teacherPwd" lay-verify="required" class="layui-input">
+                    <%--初始化密码：123456--%>
+                    <input type="text" name="teacherPwd" lay-verify="required" value="123456" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">姓名</label>
                 <div class="layui-input-block">
-                    <input type="text" name="name" class="layui-input">
+                    <input type="text" name="name" lay-verify="required" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">

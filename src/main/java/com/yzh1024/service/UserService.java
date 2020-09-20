@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.yzh1024.dao.UserDao;
 import com.yzh1024.entity.User;
 import com.yzh1024.utils.BeanMapUtils;
+import com.yzh1024.utils.MD5Utils;
 import com.yzh1024.utils.MapParameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,14 @@ public class UserService {
     @Autowired
     private UserDao userDao;
 
+
+    /**
+     * 创建用户，密码加密处理
+     * @param pi
+     * @return
+     */
     public int create(User pi) {
+        pi.setUserPwd(MD5Utils.getMD5(pi.getUserPwd()));
         return userDao.create(pi);
     }
 

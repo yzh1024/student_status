@@ -1,14 +1,14 @@
 package com.yzh1024.controller;
 
 import com.yzh1024.entity.Course;
+import com.yzh1024.entity.Course;
+import com.yzh1024.service.CourseService;
 import com.yzh1024.service.CourseService;
 import com.yzh1024.utils.MapControl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -22,9 +22,60 @@ import java.util.Map;
 @Controller
 @RequestMapping("/course")
 public class CourseController {
+    
+    private final String LIST = "course/list";
+    private final String ADD = "course/add";
+    private final String UPDATE = "course/update";
 
     @Autowired
     private CourseService courseService;
+
+
+    /**
+     * 跳转到course/list.jsp
+     * @return
+     */
+    @GetMapping("/list")
+    public String list(){
+        return LIST;
+    }
+    /**
+     * 新增，跳到course/add.jsp页面
+     * @return
+     */
+    @GetMapping("/add")
+    private String add(){
+        return ADD;
+    }
+
+    /**
+     * 批量删除
+     * @param ids
+     * @return
+     */
+    @PostMapping("/delete")
+    @ResponseBody
+    private Map<String, Object> delete(String ids) {
+        int result = courseService.delete(ids);
+        if(result<=0){
+            return MapControl.getInstance().error().getMap();
+        }
+        return MapControl.getInstance().success().getMap();
+    }
+
+    /**
+     * 修改信息
+     * 先根据id查询信息，然后跳转到course/update.jsp页面
+     * @param id
+     * @param modelMap
+     * @return
+     */
+    @GetMapping("/detail/{id}")
+    private String detail(@PathVariable("id") Integer id, ModelMap modelMap) {
+        Course course = courseService.detail(id);
+        modelMap.addAttribute("course",course);
+        return UPDATE;
+    }
 
     @PostMapping("/create")
     @ResponseBody

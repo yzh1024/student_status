@@ -10,9 +10,9 @@
             <form class="layui-form layui-form-pane">
                 <div class="layui-form-item">
                     <div class="layui-inline">
-                        <label class="layui-form-label">教师姓名</label>
+                        <label class="layui-form-label">课程名称</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="name" class="layui-input">
+                            <input type="text" name="courseName" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
@@ -49,7 +49,7 @@
 
         table.render({
             elem:'#currentTableId',                 //渲染对象
-            url:'${basePath}teacher/query',         //Controller中的url
+            url:'${basePath}course/query',         //Controller中的url
             method:'post',                          //请求方式
             toolbar: '#toolbar',                 //上面‘添加’、‘修改’、‘删除’的按钮
             defaultToolbar: ['filter', 'exports', 'print'],      //页面右侧‘筛选列’‘导出’‘打印’的按钮，layui自带的
@@ -57,8 +57,7 @@
             cols: [[
                 {type: "checkbox", width: 50},
                 {field: 'id', width: 80, title: 'ID'},
-                {field: 'teacherName', title: '账号'},
-                {field: 'name', title: '姓名'},
+                {field: 'courseName', title: '课程名称'},
                 {field: 'remark', title: '备注'}
             ]],
             // skin: 'line'
@@ -82,12 +81,12 @@
         table.on('toolbar(currentTableFilter)', function (obj) {
             if (obj.event === 'add') {   // 监听添加操作
                 var index = layer.open({
-                    title: '添加教师信息',
+                    title: '添加课程',
                     type: 2,              //ifram
                     shade: 0.2,           //阴影透明度
                     shadeClose: false,
                     area: ['50%', '50%'],    //占比面积
-                    content: '${basePath}teacher/add',
+                    content: '${basePath}course/add',
                     end:function(){
                         table.reload('currentTableId');     //添加完后刷新
                     }
@@ -100,12 +99,12 @@
                     return;
                 }
                 var index = layer.open({
-                    title: '修改教师信息',
+                    title: '修改专业',
                     type: 2,
                     shade: 0.2,
                     shadeClose: false,
                     area: ['50%', '50%'],
-                    content: '${basePath}teacher/detail/'+data[0].id,
+                    content: '${basePath}course/detail/'+data[0].id,
                     end:function(){
                         table.reload('currentTableId');
                     }
@@ -126,7 +125,7 @@
                 }
                 layer.confirm('确定要删除行吗', function () {
                     $.ajax({
-                        url:"${basePath}teacher/delete",
+                        url:"${basePath}course/delete",
                         type:"POST",
                         dataType:'json',
                         data:"ids="+arr.join(","),

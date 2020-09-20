@@ -16,25 +16,16 @@
 <div class="layuimini-container layuimini-page-anim">
     <div class="layuimini-main width_60">
         <form class="layui-form">
-            <input type="hidden" name="id" value="${teacher.id}">
             <div class="layui-form-item">
-                <label class="layui-form-label">账号</label>
+                <label class="layui-form-label">课程名称</label>
                 <div class="layui-input-block">
-                    <input type="text" name="teacherName" value="${teacher.teacherName}" lay-verify="required" class="layui-input">
+                    <input type="text" name="courseName" lay-verify="required" class="layui-input">
                 </div>
             </div>
-
-            <div class="layui-form-item">
-                <label class="layui-form-label">姓名</label>
-                <div class="layui-input-block">
-                    <input type="text" name="name" value="${teacher.name}" lay-verify="required" class="layui-input">
-                </div>
-            </div>
-
             <div class="layui-form-item">
                 <label class="layui-form-label">备注</label>
                 <div class="layui-input-block">
-                    <input type="text" name="remark" value="${teacher.remark}" class="layui-input">
+                    <input type="text" name="remark" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -62,7 +53,7 @@
         //监听提交
         form.on('submit(save)',function (data) {
             $.ajax({
-                url:"${basePath}teacher/update",
+                url:"${basePath}course/create",
                 type:"POST",
                 dataType:'json',
                 data:data.field,

@@ -50,10 +50,9 @@
     <sql id="userFindCriteria">
         <where>
             <if test="id !=null">and id = #{id}</if>
-            <if test="userName != null and userName != ''">and user_name = #{userName}</if>
+            <if test="userName != null and userName != ''">and user_name =#{userName} </if>
             <if test="userPwd != null and userPwd != ''">and user_pwd = #{userPwd}</if>
             <if test="name != null and name != ''">and name like concat('%',#{name},'%')</if>
-            <if test="remark != null and remark != ''">and remark like concat('%',#{remark},'%')</if>
         </where>
     </sql>
 
