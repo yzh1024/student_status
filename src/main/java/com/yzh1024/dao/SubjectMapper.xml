@@ -3,8 +3,8 @@
 <mapper namespace="com.yzh1024.dao.SubjectDao">
     <resultMap type="com.yzh1024.entity.Subject" id="Subject">
         <id column="id" property="id"/>
-        <result column="college" property="college"/>
         <result column="id" property="id"/>
+        <result column="college" property="college"/>
         <result column="remark" property="remark"/>
         <result column="subject_name" property="subjectName"/>
     </resultMap>
@@ -49,15 +49,15 @@
     </update>
     <sql id="SubjectFindCriteria">
         <where>
-            <if test="college != null and college != ''">and college like concat('%',#{college},'%')</if>
             <if test="id != null">and id = #{id}</if>
+            <if test="college != null and college != ''">and college like concat('%',#{college},'%')</if>
             <if test="subjectName != null and subjectName != ''">and subject_name like concat('%',#{subjectName},'%')</if>
         </where>
     </sql>
     <sql id="SubjectUpdateCriteria">
         <set>
-            <if test="updateCollege != null and updateCollege != ''">college = #{updateCollege},</if>
             <if test="updateId != null">id = #{updateId},</if>
+            <if test="updateCollege != null and updateCollege != ''">college = #{updateCollege},</if>
             <if test="updateRemark != null and updateRemark != ''">remark = #{updateRemark},</if>
             <if test="updateSubjectName != null and updateSubjectName != ''">subject_name = #{updateSubjectName},</if>
         </set>
