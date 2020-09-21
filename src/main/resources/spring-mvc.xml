@@ -16,12 +16,21 @@
     <!--包扫描-->
     <context:component-scan base-package="com.yzh1024.controller,com.yzh1024.utils" />
 
+    <!--日期类型转换器（针对对象的时间处理）-->
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <bean class="com.yzh1024.utils.DateConverter"></bean>
+            </set>
+        </property>
+    </bean>
+
     <!--注解驱动-->
-    <mvc:annotation-driven>
+    <mvc:annotation-driven conversion-service="conversionService">
         <!--配置消息转换（Map转json）-->
         <mvc:message-converters>
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-                <!--配置日期-->
+                <!--配置日期(针对json的时间处理)-->
                 <property name="objectMapper">
                     <bean class="com.fasterxml.jackson.databind.ObjectMapper">
                         <property name="dateFormat">

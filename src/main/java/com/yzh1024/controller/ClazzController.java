@@ -47,7 +47,7 @@ public class ClazzController {
      * @return
      */
     @GetMapping("/add")
-    private String add(ModelMap modelMap ){
+    private String add(ModelMap modelMap){
         List<Subject> subjects = subjectService.query(null);
         modelMap.addAttribute("subjects",subjects);
         return ADD;
@@ -121,10 +121,10 @@ public class ClazzController {
     @PostMapping("/query")
     @ResponseBody
     private Map<String, Object> query(Clazz clazz) {
-        List<Clazz> list = clazzService.query(clazz);
+        List<Clazz> clazzes = clazzService.query(clazz);
         List<Subject> subjects = subjectService.query(null);
         //设置subject,循环赋值
-        list.forEach(entity->{
+        clazzes.forEach(entity->{
             subjects.forEach(subject -> {
                 if(entity.getSubjectId() == subject.getId().intValue()){
                     entity.setSubject(subject);
@@ -132,7 +132,7 @@ public class ClazzController {
             });
         });
         Integer count = clazzService.count(clazz);
-        return MapControl.getInstance().success().put("data",list).put("count",count).getMap();
+        return MapControl.getInstance().success().put("data",clazzes).put("count",count).getMap();
     }
    
  

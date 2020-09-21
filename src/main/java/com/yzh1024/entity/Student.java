@@ -11,71 +11,24 @@ import java.util.Date;
  */
 public class Student  extends Entity {
 
-
-	/**
-	 * 
-	 */
-	private String addr;
-	/**
-	 * 
-	 */
-	private String gender;
-	/**
-	 * 
-	 */
-	private Date birthday;
-	/**
-	 * 
-	 */
-	private String cardNo;
-	/**
-	 * 
-	 */
-	private Integer clazzId;
-	/**
-	 * 
-	 */
 	private Integer id;
-	/**
-	 * 
-	 */
-	private Date joinDate;
-	/**
-	 * 
-	 */
-	private String phone;
-	/**
-	 * 
-	 */
-	private String pname;
-	/**
-	 * 
-	 */
-	private String status;
-	/**
-	 * 
-	 */
-	private String stuName;
-	/**
-	 * 
-	 */
 	private String stuNo;
-	/**
-	 * 
-	 */
+	private String stuName;
 	private String stuPwd;
-	/**
-	 * 
-	 */
-	private Integer subjectId;
-	/**
-	 * 
-	 */
+	private String cardNo;
+	private String gender;
+	private Date birthday;
+	private String phone;
+	private String pname;
 	private String telephone;
-
-	private Subject subject;
+	private String addr;
+	private Date joinDate;
+	private String status;
 
 	private Clazz clazz;
+	private Subject subject;
+	private Integer clazzId;
+	private Integer subjectId;
 
 
 	public String getAddr() {

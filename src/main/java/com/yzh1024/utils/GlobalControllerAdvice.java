@@ -38,6 +38,7 @@ public class GlobalControllerAdvice {
     @ExceptionHandler(value=RuntimeException.class)
     @ResponseBody//返回json数据
     public Map<String,Object> runtimeException(RuntimeException e){
+        e.printStackTrace();
         return MapControl.getInstance().error(e.getMessage()).getMap();
     }
 

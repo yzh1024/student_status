@@ -10,15 +10,9 @@
             <form class="layui-form layui-form-pane">
                 <div class="layui-form-item">
                     <div class="layui-inline">
-                        <label class="layui-form-label">专业名称</label>
+                        <label class="layui-form-label">姓名</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="subjectName" class="layui-input">
-                        </div>
-                    </div>
-                    <div class="layui-inline">
-                        <label class="layui-form-label">所属院系</label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="college" class="layui-input">
+                            <input type="text" name="stuName" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
@@ -55,7 +49,7 @@
 
         table.render({
             elem:'#currentTableId',                 //渲染对象
-            url:'${basePath}subject/query',         //Controller中的url
+            url:'${basePath}student/query',         //Controller中的url
             method:'post',                          //请求方式
             toolbar: '#toolbar',                 //上面‘添加’、‘修改’、‘删除’的按钮
             defaultToolbar: ['filter', 'exports', 'print'],      //页面右侧‘筛选列’‘导出’‘打印’的按钮，layui自带的
@@ -63,11 +57,16 @@
             cols: [[
                 {type: "checkbox", width: 50},
                 {field: 'id', width: 80, title: 'ID'},
-                {field: 'subjectName', title: '专业名称'},
-                {field: 'college', title: '所属系'},
-                {field: 'remark', title: '备注'}
+                {field: 'stuNo',  title: '学号'},
+                {field: 'stuName', title: '姓名'},
+                {field: 'cardNo',title: '身份证号'},
+                {field: 'gender',title: '性别'},
+                {field: 'phone',title: '手机号码'},
+                {field: 'joinDate',title: '入学时间'},
+                {field: 'subjectName',title: '专业',templet: '<div>{{d.subject.subjectName}}</div>'},
+                {field: 'clazzName',title: '班级',templet: '<div>{{d.clazz.clazzName}}</div>'},
+                {field: 'status',title: '状态'}
             ]],
-
             // skin: 'line'
             skin: 'border'      //显示边框
         });
@@ -94,7 +93,7 @@
                     shade: 0.2,           //阴影透明度
                     shadeClose: false,
                     area: ['50%', '50%'],    //占比面积
-                    content: '${basePath}subject/add',
+                    content: '${basePath}student/add',
                     end:function(){
                         table.reload('currentTableId');     //添加完后刷新
                     }
@@ -112,7 +111,7 @@
                     shade: 0.2,
                     shadeClose: false,
                     area: ['50%', '50%'],
-                    content: '${basePath}subject/detail/'+data[0].id,
+                    content: '${basePath}student/detail/'+data[0].id,
                     end:function(){
                         table.reload('currentTableId');
                     }
@@ -133,7 +132,7 @@
                 }
                 layer.confirm('确定要删除行吗', function () {
                     $.ajax({
-                        url:"${basePath}subject/delete",
+                        url:"${basePath}student/delete",
                         type:"POST",
                         dataType:'json',
                         data:"ids="+arr.join(","),

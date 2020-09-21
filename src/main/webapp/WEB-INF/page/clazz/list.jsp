@@ -58,7 +58,7 @@
                 {type: "checkbox", width: 50},
                 {field: 'id', width: 80, title: 'ID'},
                 {field: 'clazzName', title: '班级名称'},
-                {field: 'subjectName', title: '所属系',templet:'<div>{{d.subject.subjectName}}<div>'},
+                {field: 'subjectName', title: '专业',templet:'<div>{{d.subject.subjectName}}<div>'},
                 {field: 'remark', title: '备注'}
             ]],
             // skin: 'line'
