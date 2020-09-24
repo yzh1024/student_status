@@ -87,18 +87,6 @@
           "target": "_self"
         },
         {
-          "title": "开课管理",
-          "href": "section/list",
-          "icon": "fa fa-home",
-          "target": "_self"
-        },
-        {
-          "title": "用户管理",
-          "href": "user/list",
-          "icon": "fa fa-home",
-          "target": "_self"
-        },
-        {
           "title": "申请管理",
           "href": "request/list",
           "icon": "fa fa-home",

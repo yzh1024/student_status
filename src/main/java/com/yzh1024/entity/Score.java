@@ -31,6 +31,33 @@ public class Score extends Entity {
 	 * 
 	 */
 	private Integer stuId;
+	private Student student;
+	private Section section;
+	private Course course;
+
+	public Student getStudent() {
+		return student;
+	}
+
+	public void setStudent(Student student) {
+		this.student = student;
+	}
+
+	public Section getSection() {
+		return section;
+	}
+
+	public void setSection(Section section) {
+		this.section = section;
+	}
+
+	public Course getCourse() {
+		return course;
+	}
+
+	public void setCourse(Course course) {
+		this.course = course;
+	}
 
 	public Integer getCourseId() {
 		return courseId;

@@ -1,12 +1,9 @@
 package com.yzh1024.controller;
 
+import com.yzh1024.entity.*;
 import com.yzh1024.entity.Score;
-import com.yzh1024.entity.Score;
-import com.yzh1024.entity.Student;
-import com.yzh1024.entity.Subject;
+import com.yzh1024.service.*;
 import com.yzh1024.service.ScoreService;
-import com.yzh1024.service.ScoreService;
-import com.yzh1024.service.SubjectService;
 import com.yzh1024.utils.MapControl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,6 +31,12 @@ public class ScoreController {
     private ScoreService scoreService;
     @Autowired
     private SubjectService subjectService;
+    @Autowired
+    private CourseService  courseService;
+    @Autowired
+    private StudentService studentService;
+    @Autowired
+    private SectionService sectionService;
 
     /**
      * 跳转到score/list.jsp
@@ -41,8 +44,19 @@ public class ScoreController {
      */
     @GetMapping("/list")
     public String list(){
-        return "score/list";
+        return LIST;
     }
+
+    /**
+     * 跳转到score/list.jsp
+     * @return
+     */
+    @GetMapping("/student_score")
+    public String student_score(){
+        return "score/student_score";
+    }
+
+
 
     /**
      * 新增，先查出专业，然后跳到score/add.jsp页面
@@ -128,6 +142,31 @@ public class ScoreController {
         List<Subject> subjects = subjectService.query(null);
         Integer count = scoreService.count(score);
         return MapControl.getInstance().success().put("data",scorees).put("count",count).getMap();
+    }
+
+    @PostMapping("/query_student_score")
+    @ResponseBody
+    private Map<String, Object> query_student_score(HttpSession session) {
+        Student student = (Student) session.getAttribute("user");
+        Score score = new Score();
+        score.setStuId(student.getId());
+        List <Score> scores = scoreService.query(score);
+        List <Course> courses = courseService.query(null);
+        List <Section> sections = sectionService.query(null);
+        scores.forEach(entity->{
+            courses.forEach(course -> {
+                if(entity.getCourseId()==course.getId().intValue()){
+                    entity.setCourse(course);
+                }
+            });
+            sections.forEach(section -> {
+                if(entity.getSectionId()==section.getId().intValue()){
+                    entity.setSection(section);
+                }
+            });
+            entity.setStudent(student);
+        });
+        return MapControl.getInstance().success().put("data",scores).getMap();
     }
 
 }
