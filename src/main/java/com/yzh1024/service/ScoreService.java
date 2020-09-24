@@ -8,6 +8,7 @@ import com.yzh1024.utils.MapParameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -18,8 +19,21 @@ import java.util.List;
 public class ScoreService {
     @Autowired
     private ScoreDao scoreDao;
-    public int create(Score pi){
-        return scoreDao.create(pi);
+
+    public int create(String sectionIds, String courseIds, Integer studentId){
+        //清除已有选课数据
+        scoreDao.delete(MapParameter.getInstance().add("stuId",studentId).getMap());
+        String[] sectionIdArr = sectionIds.split(",");
+        String[] courseIdArr = courseIds.split(",");
+        int flag = 0;
+        for (int i=0;i<sectionIdArr.length;i++) {
+            Score score = new Score();
+            score.setSectionId(Integer.parseInt(sectionIdArr[i]));
+            score.setCourseId(Integer.parseInt(courseIdArr[i]));
+            score.setStuId(studentId);
+            flag = scoreDao.create(score);
+        }
+        return flag;
     }
 
     public int delete(Integer id){

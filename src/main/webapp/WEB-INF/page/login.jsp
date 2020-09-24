@@ -42,7 +42,7 @@
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-icon layui-icon-username"></label>
-                    <input type="text" name="userName" lay-verify="required" placeholder="用户名" autocomplete="off" class="layui-input" value="admin">
+                    <input type="text" name="userName" lay-verify="required" placeholder="用户名" autocomplete="off" class="layui-input" value="yzh1024">
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-icon layui-icon-password"></label>

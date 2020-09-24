@@ -13,7 +13,7 @@
     </resultMap>
 
     <resultMap id="SelectedSection" type="com.yzh1024.entity.Section" extends="Section">
-        <result property="selected" column="selected" />
+        <result column="selected" property="selected"  />
     </resultMap>
 
     <insert id="create" keyProperty="id" useGeneratedKeys="true" parameterType="com.yzh1024.entity.Section">

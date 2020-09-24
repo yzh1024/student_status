@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author yzh1024
@@ -58,6 +59,15 @@ public class SectionService {
             flag = sectionDao.delete(MapParameter.getInstance().addId(Integer.parseInt(s)).getMap());
         }
         return flag;
+    }
+
+    /**
+     * 学生选课:根据学生Id查询选课信息
+     * @param studentId
+     * @return
+     */
+    public List<Section> queryByStudent(Integer studentId){
+        return sectionDao.queryByStudent(MapParameter.getInstance().add("studentId", studentId).getMap());
     }
     
 }

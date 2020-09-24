@@ -46,7 +46,9 @@ public class Section extends Entity {
 	private Teacher teacher;
 
 	private Clazz clazz;
-
+	/**
+	 * selected,学生选课的数量，辅助查询
+	 */
 	private  Integer selected;
 
 	public Integer getClazzId() {

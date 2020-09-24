@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.yzh1024.dao.StudentDao;
 import com.yzh1024.entity.Student;
 import com.yzh1024.utils.BeanMapUtils;
+import com.yzh1024.utils.MD5Utils;
 import com.yzh1024.utils.MapParameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,14 @@ import java.util.Map;
 public class StudentService {
     @Autowired
     private StudentDao studentDao;
+
+    /**
+     * 创建用户，密码加密处理
+     * @param pi
+     * @return
+     */
     public int create(Student pi){
+        pi.setStuPwd(MD5Utils.getMD5(pi.getStuPwd()));
         return studentDao.create(pi);
     }
 
