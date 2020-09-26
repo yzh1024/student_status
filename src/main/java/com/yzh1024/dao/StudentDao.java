@@ -19,6 +19,11 @@ public interface StudentDao {
 
     public int count(Map<String, Object> paramMap);
 
+    /**
+     * 查询选课的学生信息
+     * @param paramMap
+     * @return
+     */
     public List<HashMap> querySelectStudent(Map<String, Object> paramMap);
 
     public List<Student> queryStudentByTeacher(Map<String, Object> paramMap);

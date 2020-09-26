@@ -48,7 +48,7 @@ public class ScoreController {
     }
 
     /**
-     * 跳转到score/list.jsp
+     * 跳转到score/student_score.jsp
      * @return
      */
     @GetMapping("/student_score")

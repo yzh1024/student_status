@@ -22,7 +22,7 @@ public class Score extends Entity {
 	/**
 	 * 
 	 */
-	private String score;
+	private Double score;
 	/**
 	 * 
 	 */
@@ -71,10 +71,10 @@ public class Score extends Entity {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getScore() {
+	public Double getScore() {
 		return score;
 	}
-	public void setScore(String score) {
+	public void setScore(Double score) {
 		this.score = score;
 	}
 	public Integer getSectionId() {

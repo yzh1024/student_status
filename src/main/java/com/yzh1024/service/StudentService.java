@@ -9,6 +9,7 @@ import com.yzh1024.utils.MapParameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -81,6 +82,14 @@ public class StudentService {
             flag = studentDao.delete(MapParameter.getInstance().addId(Integer.parseInt(s)).getMap());
         }
         return flag;
+    }
+
+    public List<HashMap> querySelectStudent(Integer courseId,Integer sectionId){
+        Map<String, Object> map = MapParameter.getInstance()
+                .add("courseId", courseId)
+                .add("sectionId", sectionId)
+                .getMap();
+        return studentDao.querySelectStudent(map);
     }
     
 }

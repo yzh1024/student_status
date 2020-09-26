@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author yzh1024
@@ -20,13 +21,13 @@ public class ScoreService {
     @Autowired
     private ScoreDao scoreDao;
 
-    public int create(String sectionIds, String courseIds, Integer studentId){
+    public int create(String sectionIds, String courseIds, Integer studentId) {
         //清除已有选课数据
-        scoreDao.delete(MapParameter.getInstance().add("stuId",studentId).getMap());
+        scoreDao.delete(MapParameter.getInstance().add("stuId", studentId).getMap());
         String[] sectionIdArr = sectionIds.split(",");
         String[] courseIdArr = courseIds.split(",");
         int flag = 0;
-        for (int i=0;i<sectionIdArr.length;i++) {
+        for (int i = 0; i < sectionIdArr.length; i++) {
             Score score = new Score();
             score.setSectionId(Integer.parseInt(sectionIdArr[i]));
             score.setCourseId(Integer.parseInt(courseIdArr[i]));
@@ -36,25 +37,42 @@ public class ScoreService {
         return flag;
     }
 
-    public int delete(Integer id){
+    public int delete(Integer id) {
         return scoreDao.delete(MapParameter.getInstance().addId(id).getMap());
     }
 
-    public int update(Score score){
+    public int update(Score score) {
         return scoreDao.update(MapParameter.getInstance().add(BeanMapUtils.beanToMapForUpdate(score)).addId(score.getId()).getMap());
     }
 
-    public List<Score> query(Score score){
-        if (score != null && score.getPage() != null){
+    public int update(Integer courseId, Integer sectionId, String stuIds, String scores) {
+        String[] stuIdArray = stuIds.split(",");
+        String[] scoresArray = scores.split(",");
+        int flag = 0;
+        for (int i = 0; i < stuIdArray.length; i++) {
+            Map<String, Object> map = MapParameter.getInstance()
+                    .add("courseId", courseId)
+                    .add("sectionId", sectionId)
+                    .add("stuId", Integer.parseInt(stuIdArray[i]))
+                    .add("updateScore", Double.parseDouble(scoresArray[i]))
+                    .getMap();
+            flag = scoreDao.update(map);
+        }
+        return flag;
+    }
+
+    public List<Score> query(Score score) {
+        if (score != null && score.getPage() != null) {
             PageHelper.startPage(score.getPage(), score.getLimit());
         }
         return scoreDao.query(BeanMapUtils.beanToMap(score));
     }
 
-    public Score detail(Integer id){
+    public Score detail(Integer id) {
         return scoreDao.detail(MapParameter.getInstance().addId(id).getMap());
     }
-    public int count(Score score){
+
+    public int count(Score score) {
         return scoreDao.count(BeanMapUtils.beanToMap(score));
     }
 
@@ -73,5 +91,5 @@ public class ScoreService {
         }
         return flag;
     }
-    
+
 }

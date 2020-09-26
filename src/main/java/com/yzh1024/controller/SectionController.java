@@ -38,6 +38,10 @@ public class SectionController {
     private TeacherService teacherService;
     @Autowired
     private CourseService courseService;
+    @Autowired
+    private StudentService studentService;
+    @Autowired
+    private ScoreService scoreService;
 
     /**
      * 跳转到section/list.jsp
@@ -74,6 +78,16 @@ public class SectionController {
         return "section/student_section";
     }
 
+    /**
+     * 老师管理成绩：跳转到section/teacher_section.jsp
+     *
+     * @return
+     */
+    @GetMapping("/teacher_section")
+    public String teacher_section() {
+        return "section/teacher_section";
+    }
+
     @PostMapping("/query_student_section")
     @ResponseBody
     public Map<String, Object> query_student_section(HttpSession session) {
@@ -106,6 +120,33 @@ public class SectionController {
 
         return MapControl.getInstance().success().put("data",sections).getMap();
     }
+
+    @PostMapping("/query_teacher_section")
+    @ResponseBody
+    public Map<String,Object> query_teacher_section(HttpSession session){
+        //从session里面拿登陆对象信息
+        Teacher teacher = (Teacher) session.getAttribute("user");
+        //根据老师id查询section数据
+        Section param = new Section();
+        param.setTeacherId(teacher.getId());
+        List<Section> sections = sectionService.query(param);
+        List<Clazz> clazzes = clazzService.query(null);
+        List<Course> courses = courseService.query(null);
+        sections.forEach(section -> {
+            clazzes.forEach(clazz -> {
+                if(section.getClazzId() == clazz.getId().intValue()){
+                   section.setClazz(clazz);
+                }
+            });
+            courses.forEach(course -> {
+                if(section.getCourseId() == course.getId().intValue()){
+                    section.setCourse(course);
+                }
+            });
+        });
+        return MapControl.getInstance().success().put("data",sections).getMap();
+    }
+
 
 
     /**
@@ -227,6 +268,26 @@ public class SectionController {
         });
         Integer count = sectionService.count(section);
         return list;
+    }
+
+
+    @GetMapping("/teacher_student_score")
+    private String teacher_student_score(Integer courseId,Integer sectionId,ModelMap modelMap){
+        List<HashMap> list = studentService.querySelectStudent(courseId,sectionId);
+        modelMap.put("list",list);
+        modelMap.put("courseId",courseId);
+        modelMap.put("sectionId",sectionId);
+        return "section/teacher_student_score";
+    }
+
+    @PostMapping("/teacher_student_score")
+    @ResponseBody
+    private Map<String,Object> teacher_student_score(Integer courseId,Integer sectionId,String stuIds,String scores){
+        int result = scoreService.update(courseId, sectionId, stuIds, scores);
+        if (result <= 0) {
+            return MapControl.getInstance().error().getMap();
+        }
+        return MapControl.getInstance().success().getMap();
     }
 
 
