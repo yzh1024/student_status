@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +45,46 @@ public class StudentController {
     @GetMapping("/list")
     public String list() {
         return "student/list";
+    }
+
+    /**
+     * 跳转到student/teacher_student.jsp
+     *
+     * @return
+     */
+    @GetMapping("/teacher_student")
+    public String teacher_student(HttpSession session, ModelMap modelMap){
+        Teacher teacher = (Teacher) session.getAttribute("user");
+        List<Clazz> clazzes = clazzService.query(null);
+        List<Subject> subjects = subjectService.query(null);
+        modelMap.addAttribute("clazzes",clazzes);
+        modelMap.addAttribute("subjects",subjects);
+        modelMap.addAttribute("teacherId",teacher.getId());
+        return "student/teacher_student";
+    }
+
+    @PostMapping("/teacher_student")
+    @ResponseBody
+    public Map<String,Object> teacher_student(Integer clazzId,Integer subjectId,HttpSession session){
+
+        Teacher teacher = (Teacher) session.getAttribute("user");
+        List<Student> students = studentService.queryStudentByTeacher(teacher.getId(), clazzId, subjectId);
+        List<Subject> subjects = subjectService.query(null);
+        List<Clazz> clazzes = clazzService.query(null);
+        //设置关联关系
+        students.forEach(entity->{
+            subjects.forEach(subject -> {
+                if(subject.getId() == entity.getSubjectId()){
+                    entity.setSubject(subject);
+                }
+            });
+            clazzes.forEach(clazz -> {
+                if(clazz.getId() == entity.getClazzId()){
+                    entity.setClazz(clazz);
+                }
+            });
+        });
+        return MapControl.getInstance().success().add("data",students).getMap();
     }
 
     /**

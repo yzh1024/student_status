@@ -91,5 +91,15 @@ public class StudentService {
                 .getMap();
         return studentDao.querySelectStudent(map);
     }
-    
+
+    public List<Student> queryStudentByTeacher(Integer teacherId,Integer clazzId,Integer subjectId){
+        Map<String, Object> map = MapParameter.getInstance()
+                .add("teacherId", teacherId)
+                .add("clazzId", clazzId)
+                .add("subjectId", subjectId)
+                .getMap();
+        return studentDao.queryStudentByTeacher(map);
+    }
+
+
 }
