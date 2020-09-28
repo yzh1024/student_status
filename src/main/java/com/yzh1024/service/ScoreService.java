@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -90,6 +91,11 @@ public class ScoreService {
             flag = scoreDao.delete(MapParameter.getInstance().addId(Integer.parseInt(s)).getMap());
         }
         return flag;
+    }
+
+    public List<HashMap> queryAvgBySection(){
+        List<HashMap> maplist = scoreDao.queryAvgBySection(null);
+        return maplist;
     }
 
 }

@@ -55,7 +55,7 @@ public class LoginController {
 
         //验证码判断
         String captcha1 = (String) session.getAttribute("captcha");
-        if(!captcha.equals(captcha1)){
+        if(!captcha.toLowerCase().equals(captcha1)){
             return MapControl.getInstance().error("验证码错误").getMap();
         }
 

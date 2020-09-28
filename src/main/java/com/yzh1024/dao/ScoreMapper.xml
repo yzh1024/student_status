@@ -70,14 +70,13 @@
     </sql>
 
     <!-- 查询各科平均成绩 -->
-    <select id="queryAvgScoreBySection" resultType="hashmap">
-    select year,type,(
-    select clazz_name from tb_clazz where tb_clazz.id = tb_section.clazz_id
-    ) clazzName,(
-    select course_name from tb_course where tb_course.id =  tb_section.course_id
-    ) courseName ,avgscore from tb_section,(
-    select section_id,avg(score) avgScore from tb_score group by section_id
-    ) A where tb_section.id = A.section_id
+    <select id="queryAvgBySection" resultType="hashmap">
+        SELECT tb_section.id,year,type,
+        (SELECT clazz_name from tb_clazz where tb_clazz.id = tb_section.clazz_id)clazzName,
+        (SELECT course_name from tb_course where tb_course.id = tb_section.course_id)courseName,avgScore
+        FROM tb_section,(
+        select section_id,ROUND(avg(score),1) avgScore from tb_score GROUP BY section_id
+        ) A WHERE tb_section.id = A.section_id
     </select>
 
     <select id="queryScoreByStudent" resultType="hashmap">

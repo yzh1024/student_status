@@ -19,7 +19,12 @@ public interface ScoreDao {
 
     public int count(Map<String, Object> paramMap);
 
-    public List<HashMap> queryAvgScoreBySection(Map<String, Object> paramMap);
+    /**
+     * 查询各科平均成绩
+     * @param paramMap
+     * @return
+     */
+    public List<HashMap> queryAvgBySection(Map<String, Object> paramMap);
 
     public List<HashMap> queryScoreByStudent(Map<String, Object> paramMap);
 }
